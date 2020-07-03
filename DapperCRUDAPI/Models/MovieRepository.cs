@@ -25,7 +25,7 @@ namespace DapperCRUDAPI.Models
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string sQuery = @"INSERT INTO PRODUCTS(MovieID, Title, Genre, Rating, ReleaseDate, IMDbscore) VALUES(@MovieID, @Title, @Genre, @Rating, @ReleaseDate, @IMDbscore)";
+                string sQuery = @"INSERT INTO MovieModel(MovieID, Title, Genre, Rating, ReleaseDate, IMDbscore) VALUES(@MovieID, @Title, @Genre, @Rating, @ReleaseDate, @IMDbscore)";
                 dbConnection.Open();
                 dbConnection.Execute(sQuery, newMovie);
             }
@@ -37,7 +37,7 @@ namespace DapperCRUDAPI.Models
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string sQuery = @"SELECT * FROM MovieModel";
+                string sQuery = @"EXEC MovieViewAll";
                 dbConnection.Open();
                 return dbConnection.Query<Movie>(sQuery);
             }
@@ -53,6 +53,8 @@ namespace DapperCRUDAPI.Models
                 dbConnection.Open();
                 return dbConnection.Query<Movie>(sQuery, new { Id = id }).FirstOrDefault();
             }
+
+        
 
         }
     }
