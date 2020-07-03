@@ -31,5 +31,15 @@ namespace DapperCRUDAPI.Controllers
         {
             return movieRepository.GetByID(id);
         }
+        [HttpPost]
+
+        public void post([FromBody]Movie movie)
+        {
+            if(ModelState.IsValid)
+            {
+                movieRepository.Add(movie);
+            }
+        }
+
     }
 }
