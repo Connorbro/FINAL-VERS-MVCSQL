@@ -34,7 +34,7 @@ namespace DapperCRUDAPI.Controllers
 
         [HttpPost]
 
-        public void post([FromBody]Movie newMovie)
+        public void Post([FromBody]Movie newMovie)
         {
             if (ModelState.IsValid)
             {
@@ -42,7 +42,7 @@ namespace DapperCRUDAPI.Controllers
             }
         }
         [HttpPut("{id}")]
-        public void put(int id, [FromBody] Movie newMovie)
+        public void Put(int id, [FromBody] Movie newMovie)
         {
             newMovie.MovieID = id;
             if (ModelState.IsValid)

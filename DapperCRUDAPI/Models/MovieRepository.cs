@@ -35,7 +35,7 @@ namespace DapperCRUDAPI.Models
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string linkToDB = @"UPDATE MovieModel SET MovieID=@MovieID, Title=@Title, Genre=@Genre, Rating=@Rating, ReleaseDate=@ReleaseDate, IMDbscore=@IMDbscore";
+                string linkToDB = @"UPDATE MovieModel SET Title=@Title, Genre=@Genre, Rating=@Rating, ReleaseDate=@ReleaseDate, IMDbscore=@IMDbscore WHERE MovieID=@MovieID";
                 dbConnection.Open();
                 dbConnection.Query(linkToDB, newMovie);
             }
