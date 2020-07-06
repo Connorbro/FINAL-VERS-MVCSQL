@@ -50,7 +50,13 @@ namespace DapperCRUDAPI.Controllers
                 movieRepository.UpdateMovies(newMovie);
             }
         }
-        
+
+        [HttpDelete]
+
+        public void Delete(int id)
+        {
+            movieRepository.DeleteByID(id);
+        }
 
     }
 }

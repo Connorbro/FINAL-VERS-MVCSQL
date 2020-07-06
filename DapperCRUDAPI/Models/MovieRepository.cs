@@ -50,7 +50,15 @@ namespace DapperCRUDAPI.Models
                 return dbConnection.Query<Movie>(linkToDB);
             }
         }
-
+        public void DeleteByID(int id)
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string sQuery = @"EXEC DeleteMovieByID @MovieID=@id";
+                dbConnection.Open();
+                dbConnection.Execute(sQuery, new { Id = id });
+            }
+        }
 
 
         public Movie GetByID(int id)
