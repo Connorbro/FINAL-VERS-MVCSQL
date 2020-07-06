@@ -25,21 +25,29 @@ namespace DapperCRUDAPI.Models
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string sQuery = @"INSERT INTO MovieModel(MovieID, Title, Genre, Rating, ReleaseDate, IMDbscore) VALUES(@MovieID, @Title, @Genre, @Rating, @ReleaseDate, @IMDbscore)";
+                string linkToDB = @"INSERT INTO MovieModel(MovieID, Title, Genre, Rating, ReleaseDate, IMDbscore) VALUES(@MovieID, @Title, @Genre, @Rating, @ReleaseDate, @IMDbscore)";
                 dbConnection.Open();
-                dbConnection.Execute(sQuery, newMovie);
+                dbConnection.Execute(linkToDB, newMovie);
             }
         }
 
-
+        public void UpdateMovies(Movie newMovie)
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string linkToDB = @"UPDATE MovieModel SET MovieID=@MovieID, Title=@Title, Genre=@Genre, Rating=@Rating, ReleaseDate=@ReleaseDate, IMDbscore=@IMDbscore";
+                dbConnection.Open();
+                dbConnection.Query(linkToDB, newMovie);
+            }
+        }
 
         public IEnumerable<Movie> GetAllMovies()
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string sQuery = @"EXEC MovieViewAll";
+                string linkToDB = @"EXEC MovieViewAll";
                 dbConnection.Open();
-                return dbConnection.Query<Movie>(sQuery);
+                return dbConnection.Query<Movie>(linkToDB);
             }
         }
 
@@ -49,9 +57,9 @@ namespace DapperCRUDAPI.Models
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string sQuery = @"SELECT * FROM MovieModel WHERE MovieID=@Id";
+                string linkToDB = @"SELECT * FROM MovieModel WHERE MovieID=@Id";
                 dbConnection.Open();
-                return dbConnection.Query<Movie>(sQuery, new { Id = id }).FirstOrDefault();
+                return dbConnection.Query<Movie>(linkToDB, new { Id = id }).FirstOrDefault();
             }
 
         

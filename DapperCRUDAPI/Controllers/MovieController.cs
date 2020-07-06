@@ -34,13 +34,23 @@ namespace DapperCRUDAPI.Controllers
 
         [HttpPost]
 
-        public void post([FromBody]Movie movie)
+        public void post([FromBody]Movie newMovie)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                movieRepository.Add(movie);
+                movieRepository.Add(newMovie);
             }
         }
+        [HttpPut("{id}")]
+        public void put(int id, [FromBody] Movie newMovie)
+        {
+            newMovie.MovieID = id;
+            if (ModelState.IsValid)
+            {
+                movieRepository.UpdateMovies(newMovie);
+            }
+        }
+        
 
     }
 }
