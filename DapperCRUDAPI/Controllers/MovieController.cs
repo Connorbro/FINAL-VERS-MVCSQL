@@ -54,6 +54,10 @@ namespace DapperCRUDAPI.Controllers
             {
                 movieRepository.UpdateMovies(newMovie);
             }
+            else
+            {
+                throw new HttpException(400, "Movie wasn't updated");
+            }
         }
 
         [HttpDelete]
