@@ -10,7 +10,7 @@ namespace DapperCRUDAPI.Models
     public class MovieRepository
     {
         private string connectionString = @"User ID = sa;Password = Mypasswordisgreat;Initial catalog= Movies;Data Source=localhost, 1433;  ";
-
+        
 
         public IDbConnection Connection
         {
@@ -28,6 +28,27 @@ namespace DapperCRUDAPI.Models
                 string linkToDB = @"INSERT INTO MovieModel(MovieID, Title, Genre, Rating, ReleaseDate, IMDbscore) VALUES(@MovieID, @Title, @Genre, @Rating, @ReleaseDate, @IMDbscore)";
                 dbConnection.Open();
                 dbConnection.Execute(linkToDB, newMovie);
+                
+            }
+        }
+
+        public Movie GetByID(int id)
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string linkToDB = @"SELECT * FROM MovieModel WHERE MovieID=@Id";
+                dbConnection.Open();
+                return dbConnection.Query<Movie>(linkToDB, new { Id = id }).FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<Movie> GetAllMovies()
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string linkToDB = @"EXEC MovieViewAll";
+                dbConnection.Open();
+                return dbConnection.Query<Movie>(linkToDB);
             }
         }
 
@@ -41,15 +62,7 @@ namespace DapperCRUDAPI.Models
             }
         }
 
-        public IEnumerable<Movie> GetAllMovies()
-        {
-            using (IDbConnection dbConnection = Connection)
-            {
-                string linkToDB = @"EXEC MovieViewAll";
-                dbConnection.Open();
-                return dbConnection.Query<Movie>(linkToDB);
-            }
-        }
+        
         public void DeleteByID(int id)
         {
             using (IDbConnection dbConnection = Connection)
@@ -58,20 +71,6 @@ namespace DapperCRUDAPI.Models
                 dbConnection.Open();
                 dbConnection.Execute(sQuery, new { Id = id });
             }
-        }
-
-
-        public Movie GetByID(int id)
-        {
-            using (IDbConnection dbConnection = Connection)
-            {
-                string linkToDB = @"SELECT * FROM MovieModel WHERE MovieID=@Id";
-                dbConnection.Open();
-                return dbConnection.Query<Movie>(linkToDB, new { Id = id }).FirstOrDefault();
-            }
-
-        
-
-        }
+        }        
     }
 }

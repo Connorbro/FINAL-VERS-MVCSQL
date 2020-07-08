@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using DapperCRUDAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,11 @@ namespace DapperCRUDAPI.Controllers
 
     public class MovieController : Controller
     {
-        private readonly Models.MovieRepository movieRepository;
+        private readonly MovieRepository movieRepository;
 
         public MovieController()
         {
-            movieRepository = new Models.MovieRepository();
+            movieRepository = new MovieRepository();
         }
         [HttpGet]
         public IEnumerable<Movie> Get()
@@ -40,6 +41,10 @@ namespace DapperCRUDAPI.Controllers
             {
                 movieRepository.Add(newMovie);
             }
+            else
+            {
+                throw new HttpException(400, "Bad Request");
+            }
         }
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Movie newMovie)
@@ -58,5 +63,34 @@ namespace DapperCRUDAPI.Controllers
             movieRepository.DeleteByID(id);
         }
 
+    }
+
+    [Serializable]
+    internal class HttpException : Exception
+    {
+        private int v1;
+        private string v2;
+
+        public HttpException()
+        {
+        }
+
+        public HttpException(string message) : base(message)
+        {
+        }
+
+        public HttpException(int v1, string v2)
+        {
+            this.v1 = v1;
+            this.v2 = v2;
+        }
+
+        public HttpException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected HttpException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }
